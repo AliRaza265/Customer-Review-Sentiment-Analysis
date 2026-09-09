@@ -1,12 +1,5 @@
 import pandas as pd 
-from contractions import fix
-import re 
-import string
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import SnowballStemmer
 import nltk 
-import emoji
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
@@ -16,13 +9,12 @@ from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 import pickle as pkl
+from Data_processing import data_processing
+
+
 # download sum additional data 
 nltk.download("punkt")
 nltk.download("stopwords")
-
-
-stop_word = set(stopwords.words("english"))
-stemer  = SnowballStemmer("english")
 
 # Data Anylsis with pandas  
 read_csv = pd.read_csv("data_set/dataset_IGWA_FB10.csv", usecols = ["original_text","sentiment_text"])
@@ -37,32 +29,6 @@ print(find_missing_values)
 find_duplicate_values = read_csv.duplicated().sum()
 print(find_duplicate_values)
 
-
-
-
-def data_processing(text):
-    # convert string into lowercase
-    text = text.lower()
-    # fix constractions
-    text = fix(text)
-    # remove links with regular expression 
-    text = re.sub(r"http\S+","",text)
-    # remove html tags 
-    text = re.sub(r"<.*?>","",text)
-    # remove special characters 
-    text = text.translate(str.maketrans("","",string.punctuation))
-    # converting emojis into text 
-    text = emoji.demojize(text,delimiters= (" " , " "))
-    text = text.replace("_"," ")
-    # split string into tokens 
-    text = word_tokenize(text)
-    # remove stop word 
-    text = [word for word in text if word not in stop_word]
-    # stem the data 
-    text  = [stemer.stem(word) for word in text]
-    # converting the word in to string rby using join
-    text = " ".join(text)
-    return (text)
 
 # sample data for testing the fuction 
 sample_string = r"I love it when professors draw a big question mark next to my answer on an exam because I’m always like yeah I don’t either ¯\_(ツ)_/¯ @VolphanCarol @littlewhitty @mysticalmanatee https://t.co/yZlafy0lsd <h1>hello</h1> 🤪 growthing referring teachings"
