@@ -8,6 +8,7 @@ from nltk.stem import SnowballStemmer
 import nltk
 
 nltk.download("stopwords")
+nltk.download("punkt_tab")
 stop_word = set(stopwords.words("english"))
 stemer  = SnowballStemmer("english")
 
