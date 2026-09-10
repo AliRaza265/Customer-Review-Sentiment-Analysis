@@ -5,8 +5,9 @@ import string
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
+import nltk
 
-
+nltk.download("stopwords")
 stop_word = set(stopwords.words("english"))
 stemer  = SnowballStemmer("english")
 
